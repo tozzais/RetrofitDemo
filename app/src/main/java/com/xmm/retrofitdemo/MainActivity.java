@@ -8,6 +8,13 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.gc.netmodule.ServiceGenerator;
+import com.gc.netmodule.response.BaseResult;
+import com.xmm.retrofitdemo.bean.RequestLogin;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -29,28 +36,27 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        Toast.makeText(this,"请求了",Toast.LENGTH_SHORT).show();
         Log.e("MainActivity","请求了");
 //
-//        AccountService client = ServiceGenerator.createService(AccountService.class);
-//        RequestLogin requestLogin = new RequestLogin("admin", "123456q", true);
-//        Call<BaseResult<String>> login = client.login(requestLogin);
-//        login.enqueue(new Callback<BaseResult<String>>() {
-//            @Override
-//            public void onResponse(Call<BaseResult<String>> call, Response<BaseResult<String>> response) {
-//                BaseResult<String> body = response.body();
-//                String data = body.Data;
-//                textView.setText(data);
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Call<BaseResult<String>> call, Throwable t) {
-//                textView.setText(t.getMessage());
-//                Log.e("MainActivity",t.getMessage());
-//
-//            }
-//        });
+        AccountService client = ServiceGenerator.createService(AccountService.class);
+        RequestLogin requestLogin = new RequestLogin("admin", "123456q", true);
+        Call<BaseResult<String>> login = client.login(requestLogin);
+        login.enqueue(new Callback<BaseResult<String>>() {
+            @Override
+            public void onResponse(Call<BaseResult<String>> call, Response<BaseResult<String>> response) {
+                BaseResult<String> body = response.body();
+                String data = body.Data;
+                textView.setText(data);
+
+            }
+
+            @Override
+            public void onFailure(Call<BaseResult<String>> call, Throwable t) {
+                textView.setText(t.getMessage());
+                Log.e("MainActivity",t.getMessage());
+
+            }
+        });
 
 
     }
